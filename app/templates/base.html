@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}크리스마스 편지함{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="snow" id="snow"></div>
+    
+    {% block content %}{% endblock %}
+    
+<script>
+function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    
+    // 랜덤한 눈송이 이모지 선택
+    snowflake.innerHTML = '❄️';
+    
+    // 랜덤한 위치와 애니메이션 설정
+    const leftPosition = Math.random() * window.innerWidth + 'px';
+    
+    snowflake.style.left = leftPosition; // 랜덤한 위치
+    snowflake.style.fontSize = (Math.random() * (1.5 - 0.5) + 0.5) + 'em'; // 랜덤한 크기
+     
+    // 애니메이션 추가
+    snowflake.style.animation = `fall ${Math.random() * (5 - 3) + 3}s linear forwards`;
+    
+    document.body.appendChild(snowflake);
+
+    // 애니메이션 종료 후 제거
+    snowflake.addEventListener('animationend', () => {
+        snowflake.remove();
+    });
+}
+
+// 일정 간격으로 눈송이 생성
+setInterval(createSnowflake, 300);
+</script>
+</body>
+</html>

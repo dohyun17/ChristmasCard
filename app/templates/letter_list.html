@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="christmas-container">
+   <h1 class="christmas-title">📜 크리스마스 편지 목록 📜</h1>
+   <ul style="list-style-type:none; padding-left:0;">
+       {% for letter in letters %}
+           <li style="margin-bottom:10px;">
+               <a href="{{ url_for('letter_detail', id=letter.id) }}">
+                   {{ letter.sender }}의 편지 ({{ letter.created_at.strftime('%Y-%m-%d') }})
+               </a>
+           </li>
+       {% endfor %}
+   </ul>
+
+   <a href="{{ url_for('home') }}" class="christmas-button">🏠 홈으로</a>
+</div>
+{% endblock %}

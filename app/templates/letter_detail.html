@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="christmas-container">
+    <h1 class="christmas-title">✉️ {{ letter.sender }}의 편지 ✉️</h1>
+    
+    <audio id="christmas-audio" autoplay loop>
+        <source src="{{ url_for('static', filename='christmas_music.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <p><strong>편지 내용:</strong></p>
+    <p>{{ letter.content }}</p>
+
+    {% if letter.file %}
+        <p><strong>첨부 파일:</strong> <a href="{{ url_for('static', filename='uploads/' + letter.file) }}">{{ letter.file }}</a></p>
+    {% endif %}
+
+    <a href="{{ url_for('letter_list') }}" class="christmas-button">📜 편지 목록으로 돌아가기</a>
+</div>
+{% endblock %}

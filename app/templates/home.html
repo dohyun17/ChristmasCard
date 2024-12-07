@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="christmas-container">
+    <h1 class="christmas-title">🎄 크리스마스 편지함 🎄</h1>
+
+    <div class="button-container">
+        <a href="{{ url_for('write_letter') }}" class="christmas-button">
+            ✉️ 편지 쓰기
+        </a>
+        <a href="{{ url_for('letter_list') }}" class="christmas-button">
+            📜 편지 목록
+        </a>
+    </div>
+</div>
+
+<!-- 눈 내리는 효과 스크립트 -->
+<script>
+    function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = '❄️';
+        snowflake.style.position = 'fixed';
+        snowflake.style.left = Math.random() * window.innerWidth + 'px';
+        snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        snowflake.style.opacity = Math.random();
+        document.body.appendChild(snowflake);
+
+        snowflake.animate([
+            { transform: 'translateY(-100vh)' }
+        ], {
+            duration: 5000,
+            iterations: 1
+        });
+
+        setTimeout(() => {
+            snowflake.remove();
+        }, 5000);
+    }
+
+    setInterval(createSnowflake, 300);
+</script>
+{% endblock %}

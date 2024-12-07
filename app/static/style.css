@@ -1,0 +1,146 @@
+body {
+    font-family: 'Mountains of Christmas', cursive;
+    background-color: #e6f2ff;
+    background-image: url('snowflakes.gif');
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.christmas-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+}
+
+.christmas-title {
+    color: #d32f2f;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.christmas-button {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    margin: 10px;
+    border-radius: 30px;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.christmas-button:hover {
+    background-color: #b71c1c;
+    transform: scale(1.1);
+}
+
+.christmas-tree {
+    max-width: 200px;
+    height: auto;
+    margin: 20px auto;
+}
+
+.snowflake {
+    position: fixed; /* 고정 위치 */
+    top: -10%; /* 화면 위에서 시작 */
+    font-size: 1em; /* 눈송이 크기 */
+}
+
+/* 눈송이 애니메이션 */
+@keyframes fall {
+    to {
+        transform: translateY(100vh); /* 화면 아래로 떨어짐 */
+        opacity: 0; /* 사라짐 */
+    }
+}
+.christmas-form {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: left;
+}
+
+.christmas-form label {
+    font-size: 1.2em;
+    color: #d32f2f; /* 빨간색 */
+}
+
+.christmas-form input[type="text"],
+.christmas-form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #d32f2f; /* 빨간색 테두리 */
+    border-radius: 5px;
+}
+
+.christmas-form input[type="submit"] {
+    background-color: #d32f2f; /* 빨간색 */
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.christmas-form input[type="submit"]:hover {
+    background-color: #b71c1c; /* 더 어두운 빨간색 */
+}
+
+.snowflake {
+    position: fixed; /* 고정 위치 */
+    top: -10%; /* 화면 위에서 시작 */
+    font-size: 1em; /* 눈송이 크기 */
+}
+
+/* 눈송이 애니메이션 */
+@keyframes fall {
+    to {
+        transform: translateY(100vh); /* 화면 아래로 떨어짐 */
+        opacity: 0; /* 사라짐 */
+    }
+}
+body {
+    font-family: 'Mountains of Christmas', cursive;
+    background-color: #e6f2ff;
+    background-image: url('snowflakes.gif');
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+}
+
+.christmas-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    text-align: center;
+    max-width: 600px;
+    margin: auto; /* 중앙 정렬 */
+}
+
+.christmas-title {
+    color: #d32f2f;
+    font-size: 2.5em;
+}
+
+.christmas-button {
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    margin-top: 20px;
+    border-radius: 30px;
+}
