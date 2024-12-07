@@ -4,6 +4,16 @@
 <div class="christmas-container">
     <h1 class="christmas-title">🎄 크리스마스 편지함 🎄</h1>
 
+    <div id="countdown">
+        <h2>크리스마스까지 남은 시간</h2>
+        <div id="timer">
+            <span id="days">00</span>일 
+            <span id="hours">00</span>시간 
+            <span id="minutes">00</span>분 
+            <span id="seconds">00</span>초
+        </div>
+    </div>
+
     <div class="button-container">
         <a href="{{ url_for('write_letter') }}" class="christmas-button">
             ✉️ 편지 쓰기
@@ -39,5 +49,32 @@
     }
 
     setInterval(createSnowflake, 300);
+
+    // 크리스마스 카운트다운 스크립트
+    const christmasDate = new Date("2024-12-25T00:00:00").getTime();
+
+    const countdownFunction = setInterval(() => {
+        const now = new Date().getTime();
+        
+        const distance = christmasDate - now;
+
+        // 시간 계산
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // HTML 요소에 값 표시
+        document.getElementById("days").innerText = days;
+        document.getElementById("hours").innerText = hours;
+        document.getElementById("minutes").innerText = minutes;
+        document.getElementById("seconds").innerText = seconds;
+
+        // 카운트다운이 끝났을 때
+        if (distance < 0) {
+            clearInterval(countdownFunction);
+            document.getElementById("timer").innerHTML = "🎄 크리스마스 축하합니다! 🎄";
+        }
+    }, 1000);
 </script>
 {% endblock %}
