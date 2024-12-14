@@ -28,9 +28,47 @@
     <div class="button-group">
         <a href="{{ url_for('edit_letter', id=letter.id) }}" class="christmas-button">✏️ 편지 수정하기</a>
         <form action="{{ url_for('delete_letter', id=letter.id) }}" method="POST" style="display: inline;">
-            <button type="submit" class="christmas-button delete-button" onclick="return confirm('정말로 이 편지를 삭제하시겠습니까?');">🗑️ 편지 삭제하기</button>
+            <button type="submit" class="christmas-button" onclick="return confirm('정말로 이 편지를 삭제하시겠습니까?');">🗑️ 편지 삭제하기</button>
         </form>
         <a href="{{ url_for('letter_list') }}" class="christmas-button">📜 편지 목록으로 돌아가기</a>
     </div>
 </div>
+
+<style>
+.christmas-container {
+    padding: 20px;
+}
+
+.christmas-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.letter-content {
+    margin-bottom: 20px;
+}
+
+.button-group {
+    margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+.christmas-button {
+    display: inline-block;
+    padding: 12px 24px; /* 버튼의 패딩 설정 */
+    margin-right: 10px; /* 버튼 간격 설정 */
+    font-size: 16px; /* 글자 크기 설정 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    color: white; /* 흰색 글자 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    text-decoration: none; /* 링크 장식 제거 */
+    background-color: #f44336; /* 빨간색 배경 */
+}
+
+.christmas-button:hover {
+    background-color: #d32f2f; /* 호버 시 어두운 빨간색 */
+}
+</style>
+
 {% endblock %}

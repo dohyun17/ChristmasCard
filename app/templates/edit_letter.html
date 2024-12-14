@@ -4,15 +4,16 @@
 <div class="christmas-container">
     <h1 class="christmas-title">🖊️ 편지 수정하기 🖊️</h1>
     
-    <form method="POST" enctype="multipart/form-data" class="christmas-form">
+    <form method="POST" enctype="multipart/form-data" class="christmas-form" onsubmit="clearStorage()">
         <div class="form-group">
             <label for="sender">보내는 사람:</label>
-            <input type="text" id="sender" name="sender" value="{{ letter.sender }}" required>
+            <input type="text" id="sender" name="sender" value="{{ letter.sender }}" required oninput="updateSender()">
         </div>
         
         <div class="form-group">
             <label for="content">편지 내용:</label>
-            <textarea id="content" name="content" rows="10" required>{{ letter.content }}</textarea>
+            <textarea id="content" name="content" rows="10" required oninput="updateCharacterCount()">{{ letter.content }}</textarea>
+            <p>글자 수: <span id="charCount">{{ letter.content|length }}</span></p> <!-- 글자 수 표시 -->
         </div>
         
         {% if letter.file %}
@@ -21,13 +22,21 @@
             <label for="file">새 파일 첨부 (선택사항):</label>
             <input type="file" id="file" name="file">
         </div>
-        {% else %}
-        <div class="form-group">
-            <label for="file">파일 첨부 (선택사항):</label>
-            <input type="file" id="file" name="file">
-        </div>
         {% endif %}
         
+        <!-- 감정 표현 버튼 -->
+        <div class="emotion-container">
+            <label>감정 표현:</label>
+            <button type="button" onclick="insertEmotion('😊')">😊</button>
+            <button type="button" onclick="insertEmotion('❤️')">❤️</button>
+            <button type="button" onclick="insertEmotion('🎉')">🎉</button>
+            <button type="button" onclick="insertEmotion('😢')">😢</button>
+            <button type="button" onclick="insertEmotion('😄')">😄</button>
+            <button type="button" onclick="insertEmotion('✨')">✨</button>
+            <button type="button" onclick="insertEmotion('🎄')">🎄</button>
+            <button type="button" onclick="insertEmotion('🌟')">🌟</button>
+        </div>
+
         <button type="submit" class="christmas-button">🎄 편지 수정하기 🎄</button>
     </form>
     
@@ -35,24 +44,124 @@
 </div>
 
 <script>
-    // 눈 내리는 효과 (write_letter.html과 동일)
-    function createSnowflake() {
-        const snowflake = document.createElement('div');
-        snowflake.classList.add('snowflake');
-        snowflake.innerHTML = '❄️';
-        const leftPosition = Math.random() * window.innerWidth + 'px';
-        snowflake.style.left = leftPosition;
-        snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // 2-5초
-        snowflake.style.opacity = Math.random();
-        snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; // 10-20px
-        document.body.appendChild(snowflake);
-        
-        // 애니메이션이 끝나면 요소 제거
-        snowflake.addEventListener('animationend', () => {
-            snowflake.remove();
-        });
-    }
+// 자동 저장 함수
+function autoSave() {
+    const sender = document.getElementById('sender').value; // 보내는 사람 가져오기
+    const content = document.getElementById('content').value; // 사용자 입력 가져오기
+    localStorage.setItem('autosaveSender', sender); // 보내는 사람을 Local Storage에 저장
+    localStorage.setItem('autosaveContent', content); // 편지 내용을 Local Storage에 저장
 
-    setInterval(createSnowflake, 100);
+    // 자동 저장 안내 메시지 표시
+    const autosaveMessage = document.getElementById('autosaveMessage');
+    autosaveMessage.style.display = 'block';
+
+    // 2초 후에 메시지 숨김
+    setTimeout(() => {
+        autosaveMessage.style.display = 'none';
+    }, 2000);
+}
+
+// 페이지 로드 시 Local Storage에서 데이터 복원
+window.onload = function() {
+    const savedSender = localStorage.getItem('autosaveSender');
+    const savedContent = localStorage.getItem('autosaveContent');
+
+    if (savedSender) {
+        document.getElementById('sender').value = savedSender; // 보내는 사람 복원
+    }
+    
+    if (savedContent) {
+        document.getElementById('content').value = savedContent; // 편지 내용 복원
+        document.getElementById('charCount').innerText = savedContent.length; // 글자 수 업데이트
+    }
+};
+
+// 10초마다 autoSave 함수 실행
+setInterval(autoSave, 10000); // 여기서 주기를 10000ms(10초)로 설정합니다.
+
+// 감정 표현 함수
+function insertEmotion(emotion) {
+    const contentTextarea = document.getElementById('content');
+    contentTextarea.value += emotion; // 선택한 이모지를 텍스트 영역에 추가
+    updateCharacterCount(); // 글자 수 업데이트 호출
+}
+
+// 글자 수 카운터 함수
+function updateCharacterCount() {
+    const content = document.getElementById('content').value;
+    document.getElementById('charCount').innerText = content.length; // 글자 수 업데이트
+}
+
+// 보내는 사람 업데이트 함수
+function updateSender() {
+    const sender = document.getElementById('sender').value;
+    localStorage.setItem('autosaveSender', sender); // 보내는 사람을 Local Storage에 저장
+}
+
+// 폼 제출 시 로컬 스토리지 클리어 함수
+function clearStorage() {
+    localStorage.removeItem('autosaveSender'); // 보내는 사람 삭제
+    localStorage.removeItem('autosaveContent'); // 편지 내용 삭제
+}
+
+// 눈 내리는 효과 (write_letter.html과 동일)
+function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    snowflake.innerHTML = '❄️';
+    const leftPosition = Math.random() * window.innerWidth + 'px';
+    snowflake.style.left = leftPosition;
+    snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // 2-5초
+    snowflake.style.opacity = Math.random();
+    snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; // 10-20px
+    document.body.appendChild(snowflake);
+    
+    // 애니메이션이 끝나면 요소 제거
+    snowflake.addEventListener('animationend', () => {
+        snowflake.remove();
+    });
+}
+
+setInterval(createSnowflake, 100);
 </script>
+
+<style>
+.christmas-container {
+    padding: 20px;
+}
+
+.christmas-title {
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.emotion-container {
+    margin-top: 10px;
+}
+
+.emotion-container button {
+    margin-right: 5px;
+}
+
+/* 버튼 스타일 */
+.christmas-button {
+    display: inline-block;
+    padding: 12px 24px; /* 버튼의 패딩 설정 */
+    margin-top: 10px; /* 버튼 간격 설정 */
+}
+
+/* 기본 버튼 색상 */
+.christmas-button {
+    background-color: #f44336; /* 빨간색 배경 */
+    color: white; /* 흰색 글자 */
+}
+
+.christmas-button:hover {
+    background-color: #d32f2f; /* 호버 시 어두운 빨간색 */
+}
+</style>
+
 {% endblock %}

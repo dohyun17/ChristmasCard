@@ -4,7 +4,7 @@
 <div class="christmas-container">
     <h1 class="christmas-title">✉️ 크리스마스 편지 쓰기 ✉️</h1>
     
-    <form method="POST" class="christmas-form">
+    <form method="POST" class="christmas-form" onsubmit="clearAutosaveData()">
         <div class="form-group">
             <label for="sender">보내는 사람:</label>
             <input type="text" id="sender" name="sender" placeholder="당신의 이름을 입력해주세요" required oninput="updateSender()">
@@ -96,6 +96,12 @@ function updateCharacterCount() {
 function updateSender() {
     const sender = document.getElementById('sender').value;
     localStorage.setItem('autosaveSender', sender); // 보내는 사람을 Local Storage에 저장
+}
+
+// 편지를 보낸 후 로컬 스토리지 데이터 삭제 함수
+function clearAutosaveData() {
+    localStorage.removeItem('autosaveSender'); // 보내는 사람 데이터 삭제
+    localStorage.removeItem('autosaveContent'); // 편지 내용 데이터 삭제
 }
 </script>
 
