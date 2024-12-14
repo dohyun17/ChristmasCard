@@ -204,3 +204,72 @@ textarea:focus {
 .christmas-button:hover {
     background-color: #b71c1c; /* 호버 시 색상 변경 */
 }
+.flash-messages {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.flash-message {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    animation: fadeOut 5s forwards;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.christmas-button {
+    margin: 10px;
+}
+
+.delete-button {
+    background-color: #ff4136;
+}
+
+.delete-button:hover {
+    background-color: #ff7166;
+}
+.file-preview {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.attached-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.letter-content {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.file-preview .christmas-button {
+    margin-top: 10px;
+    display: inline-block;
+    width: auto;
+}

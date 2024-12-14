@@ -2,31 +2,40 @@
 
 {% block content %}
 <div class="christmas-container">
-    <h1 class="christmas-title">✉️ 크리스마스 편지 쓰기 ✉️</h1>
+    <h1 class="christmas-title">🖊️ 편지 수정하기 🖊️</h1>
     
     <form method="POST" enctype="multipart/form-data" class="christmas-form">
         <div class="form-group">
             <label for="sender">보내는 사람:</label>
-            <input type="text" id="sender" name="sender" placeholder="당신의 이름을 입력해주세요" required>
+            <input type="text" id="sender" name="sender" value="{{ letter.sender }}" required>
         </div>
         
         <div class="form-group">
             <label for="content">편지 내용:</label>
-            <textarea id="content" name="content" rows="10" placeholder="따뜻한 크리스마스 마음을 담아주세요" required></textarea>
+            <textarea id="content" name="content" rows="10" required>{{ letter.content }}</textarea>
         </div>
         
+        {% if letter.file %}
+        <div class="form-group">
+            <p>현재 첨부 파일: {{ letter.file }}</p>
+            <label for="file">새 파일 첨부 (선택사항):</label>
+            <input type="file" id="file" name="file">
+        </div>
+        {% else %}
         <div class="form-group">
             <label for="file">파일 첨부 (선택사항):</label>
             <input type="file" id="file" name="file">
         </div>
+        {% endif %}
         
-        <button type="submit" class="christmas-button">🎄 편지 보내기 🎄</button>
+        <button type="submit" class="christmas-button">🎄 편지 수정하기 🎄</button>
     </form>
     
-    <a href="{{ url_for('letter_list') }}" class="christmas-button">📜 편지 목록으로 돌아가기</a>
+    <a href="{{ url_for('letter_detail', id=letter.id) }}" class="christmas-button">🔙 돌아가기</a>
 </div>
 
 <script>
+    // 눈 내리는 효과 (write_letter.html과 동일)
     function createSnowflake() {
         const snowflake = document.createElement('div');
         snowflake.classList.add('snowflake');
@@ -38,6 +47,7 @@
         snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; // 10-20px
         document.body.appendChild(snowflake);
         
+        // 애니메이션이 끝나면 요소 제거
         snowflake.addEventListener('animationend', () => {
             snowflake.remove();
         });
