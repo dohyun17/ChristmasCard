@@ -4,7 +4,7 @@
 <div class="christmas-container">
     <h1 class="christmas-title">✉️ 크리스마스 편지 쓰기 ✉️</h1>
     
-    <form method="POST" enctype="multipart/form-data" class="christmas-form">
+    <form method="POST" class="christmas-form">
         <div class="form-group">
             <label for="sender">보내는 사람:</label>
             <input type="text" id="sender" name="sender" placeholder="당신의 이름을 입력해주세요" required>
@@ -14,35 +14,75 @@
             <label for="content">편지 내용:</label>
             <textarea id="content" name="content" rows="10" placeholder="따뜻한 크리스마스 마음을 담아주세요" required></textarea>
         </div>
-        
-        <div class="form-group">
-            <label for="file">파일 첨부 (선택사항):</label>
-            <input type="file" id="file" name="file">
+
+        <!-- 감정 표현 버튼 -->
+        <div class="emotion-container">
+            <label>감정 표현:</label>
+            <button type="button" onclick="insertEmotion('😊')">😊</button>
+            <button type="button" onclick="insertEmotion('❤️')">❤️</button>
+            <button type="button" onclick="insertEmotion('🎉')">🎉</button>
+            <button type="button" onclick="insertEmotion('😢')">😢</button>
+            <button type="button" onclick="insertEmotion('😄')">😄</button>
+            <button type="button" onclick="insertEmotion('✨')">✨</button>
+            <button type="button" onclick="insertEmotion('🎄')">🎄</button>
+            <button type="button" onclick="insertEmotion('🌟')">🌟</button>
         </div>
-        
+
         <button type="submit" class="christmas-button">🎄 편지 보내기 🎄</button>
     </form>
     
     <a href="{{ url_for('letter_list') }}" class="christmas-button">📜 편지 목록으로 돌아가기</a>
+
+    <!-- 자동 저장 안내 메시지 -->
+    <div id="autosaveMessage" style="display:none; color: green; margin-top: 10px;">
+        자동 저장되었습니다!
+    </div>
 </div>
 
 <script>
-    function createSnowflake() {
-        const snowflake = document.createElement('div');
-        snowflake.classList.add('snowflake');
-        snowflake.innerHTML = '❄️';
-        const leftPosition = Math.random() * window.innerWidth + 'px';
-        snowflake.style.left = leftPosition;
-        snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // 2-5초
-        snowflake.style.opacity = Math.random();
-        snowflake.style.fontSize = Math.random() * 10 + 10 + 'px'; // 10-20px
-        document.body.appendChild(snowflake);
-        
-        snowflake.addEventListener('animationend', () => {
-            snowflake.remove();
-        });
-    }
+// 자동 저장 함수
+function autoSave() {
+    const content = document.getElementById('content').value; // 사용자 입력 가져오기
+    localStorage.setItem('autosaveContent', content); // Local Storage에 저장
 
-    setInterval(createSnowflake, 100);
+    // 자동 저장 안내 메시지 표시
+    const autosaveMessage = document.getElementById('autosaveMessage');
+    autosaveMessage.style.display = 'block';
+
+    // 2초 후에 메시지 숨김
+    setTimeout(() => {
+        autosaveMessage.style.display = 'none';
+    }, 2000);
+}
+
+// 페이지 로드 시 Local Storage에서 데이터 복원
+window.onload = function() {
+    const savedContent = localStorage.getItem('autosaveContent');
+    if (savedContent) {
+        document.getElementById('content').value = savedContent;
+    }
+};
+
+// 5초마다 autoSave 함수 실행
+setInterval(autoSave, 5000);
+
+// 감정 표현 함수
+function insertEmotion(emotion) {
+    const contentTextarea = document.getElementById('content');
+    contentTextarea.value += emotion; // 선택한 이모지를 텍스트 영역에 추가
+}
 </script>
+
+<style>
+.emotion-container {
+    margin-top: 10px;
+}
+.emotion-container button {
+    margin-right: 5px;
+}
+#autosaveMessage {
+    font-weight: bold;
+}
+</style>
+
 {% endblock %}
