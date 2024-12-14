@@ -7,12 +7,13 @@
     <form method="POST" class="christmas-form">
         <div class="form-group">
             <label for="sender">보내는 사람:</label>
-            <input type="text" id="sender" name="sender" placeholder="당신의 이름을 입력해주세요" required>
+            <input type="text" id="sender" name="sender" placeholder="당신의 이름을 입력해주세요" required oninput="updateSender()">
         </div>
         
         <div class="form-group">
             <label for="content">편지 내용:</label>
-            <textarea id="content" name="content" rows="10" placeholder="따뜻한 크리스마스 마음을 담아주세요" required></textarea>
+            <textarea id="content" name="content" rows="10" placeholder="따뜻한 크리스마스 마음을 담아주세요" required oninput="updateCharacterCount()"></textarea>
+            <p>글자 수: <span id="charCount">0</span></p> <!-- 글자 수 표시 -->
         </div>
 
         <!-- 감정 표현 버튼 -->
@@ -30,20 +31,26 @@
 
         <button type="submit" class="christmas-button">🎄 편지 보내기 🎄</button>
     </form>
-    
-    <a href="{{ url_for('letter_list') }}" class="christmas-button">📜 편지 목록으로 돌아가기</a>
 
     <!-- 자동 저장 안내 메시지 -->
     <div id="autosaveMessage" style="display:none; color: green; margin-top: 10px;">
         자동 저장되었습니다!
     </div>
+
+    <!-- 홈으로 돌아가기 버튼 추가 -->
+    <a href="{{ url_for('home') }}" class="christmas-button">🏠 홈으로 돌아가기</a>
+
+    <!-- 편지 목록으로 돌아가기 버튼 -->
+    <a href="{{ url_for('letter_list') }}" class="christmas-button">📜 편지 목록으로 돌아가기</a>
 </div>
 
 <script>
 // 자동 저장 함수
 function autoSave() {
+    const sender = document.getElementById('sender').value; // 보내는 사람 가져오기
     const content = document.getElementById('content').value; // 사용자 입력 가져오기
-    localStorage.setItem('autosaveContent', content); // Local Storage에 저장
+    localStorage.setItem('autosaveSender', sender); // 보내는 사람을 Local Storage에 저장
+    localStorage.setItem('autosaveContent', content); // 편지 내용을 Local Storage에 저장
 
     // 자동 저장 안내 메시지 표시
     const autosaveMessage = document.getElementById('autosaveMessage');
@@ -57,19 +64,38 @@ function autoSave() {
 
 // 페이지 로드 시 Local Storage에서 데이터 복원
 window.onload = function() {
+    const savedSender = localStorage.getItem('autosaveSender');
     const savedContent = localStorage.getItem('autosaveContent');
+
+    if (savedSender) {
+        document.getElementById('sender').value = savedSender; // 보내는 사람 복원
+    }
+    
     if (savedContent) {
-        document.getElementById('content').value = savedContent;
+        document.getElementById('content').value = savedContent; // 편지 내용 복원
+        document.getElementById('charCount').innerText = savedContent.length; // 글자 수 업데이트
     }
 };
 
-// 5초마다 autoSave 함수 실행
-setInterval(autoSave, 5000);
+// 10초마다 autoSave 함수 실행
+setInterval(autoSave, 10000); // 여기서 주기를 10000ms(10초)로 설정합니다.
 
 // 감정 표현 함수
 function insertEmotion(emotion) {
     const contentTextarea = document.getElementById('content');
     contentTextarea.value += emotion; // 선택한 이모지를 텍스트 영역에 추가
+}
+
+// 글자 수 카운터 함수
+function updateCharacterCount() {
+    const content = document.getElementById('content').value;
+    document.getElementById('charCount').innerText = content.length; // 글자 수 업데이트
+}
+
+// 보내는 사람 업데이트 함수
+function updateSender() {
+    const sender = document.getElementById('sender').value;
+    localStorage.setItem('autosaveSender', sender); // 보내는 사람을 Local Storage에 저장
 }
 </script>
 
