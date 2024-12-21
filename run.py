@@ -1,9 +1,6 @@
-from flask import Flask, request, redirect, url_for, render_template
-import os
-from datetime import datetime, date
+from app import create_app
 
-app = Flask(__name__)
-from app import app
+app = create_app()
 
 if __name__ == '__main__':
     app.run(debug=True)

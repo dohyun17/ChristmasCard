@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="christmas-container">
+    <h1 class="christmas-title">🎄 크리스마스 편지 공유하기 🎄</h1>
+    
+    <p>이 특별한 크리스마스 편지를 친구들과 공유해보세요!</p>
+    
+    <div class="share-buttons">
+        <button class="christmas-button" onclick="shareOnFacebook()">
+            Facebook에 공유하기
+        </button>
+        <button class="christmas-button" onclick="shareOnTwitter()">
+            Twitter에 공유하기
+        </button>
+        <button class="christmas-button" onclick="shareViaEmail()">
+            이메일로 공유하기
+        </button>
+    </div>
+
+    <a href="{{ url_for('main.letter_detail', id=letter.id) }}" class="christmas-button">편지로 돌아가기</a>
+</div>
+
+<script>
+    const shareUrl = "{{ share_url }}";
+    const shareText = "크리스마스 편지를 확인해보세요!";
+
+    function shareOnFacebook() {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+    }
+
+    function shareOnTwitter() {
+        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank');
+    }
+
+    function shareViaEmail() {
+        window.location.href = `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(shareUrl)}`;
+    }
+</script>
+
+<style>
+    .share-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+    }
+</style>
+{% endblock %}

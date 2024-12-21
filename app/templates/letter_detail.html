@@ -26,17 +26,25 @@
     {% endif %}
 
     <div class="button-group">
-        <a href="{{ url_for('edit_letter', id=letter.id) }}" class="christmas-button">✏️ 편지 수정하기</a>
-        <form action="{{ url_for('delete_letter', id=letter.id) }}" method="POST" style="display: inline;">
+        <a href="{{ url_for('main.edit_letter', id=letter.id) }}" class="christmas-button">✏️ 편지 수정하기</a>
+        <form action="{{ url_for('main.delete_letter', id=letter.id) }}" method="POST" style="display: inline;">
             <button type="submit" class="christmas-button" onclick="return confirm('정말로 이 편지를 삭제하시겠습니까?');">🗑️ 편지 삭제하기</button>
         </form>
-        <a href="{{ url_for('letter_list') }}" class="christmas-button">📜 편지 목록으로 돌아가기</a>
+        <a href="{{ url_for('main.letter_list') }}" class="christmas-button">📜 편지 목록으로 돌아가기</a>
+    </div>
+
+    <!-- 공유 버튼을 오른쪽 상단에 배치 -->
+    <div class="share-button-container">
+        <a href="#" class="small-christmas-button" onclick="shareOnFacebook()">Facebook</a>
+        <a href="#" class="small-christmas-button" onclick="shareOnX()">X (Twitter)</a> <!-- X (Twitter)로 변경 -->
+        <a href="#" class="small-christmas-button" onclick="shareViaEmail()">Email</a>
     </div>
 </div>
 
 <style>
 .christmas-container {
     padding: 20px;
+    position: relative; /* 상대 위치 설정 */
 }
 
 .christmas-title {
@@ -48,17 +56,41 @@
     margin-bottom: 20px;
 }
 
+.file-preview {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
 .button-group {
     margin-top: 20px;
 }
 
-/* 버튼 스타일 */
+/* 일반 버튼 스타일 */
 .christmas-button {
     display: inline-block;
-    padding: 12px 24px; /* 버튼의 패딩 설정 */
-    margin-right: 10px; /* 버튼 간격 설정 */
-    font-size: 16px; /* 글자 크기 설정 */
-    border: none; /* 테두리 제거 */
+    padding: 12px 24px;
+    margin-right: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    background-color: #f44336;
+}
+
+.christmas-button:hover {
+    background-color: #d32f2f;
+}
+
+/* 작은 공유 버튼 스타일 */
+.small-christmas-button {
+    display: inline-block;
+    padding: 5px; /* 작게 조정 */
+    font-size: 14px; /* 글자 크기 조정 */
     border-radius: 5px; /* 모서리 둥글게 */
     color: white; /* 흰색 글자 */
     text-align: center; /* 텍스트 중앙 정렬 */
@@ -66,9 +98,35 @@
     background-color: #f44336; /* 빨간색 배경 */
 }
 
-.christmas-button:hover {
+/* 공유 버튼 위치 조정 */
+.share-button-container {
+    position: absolute; /* 절대 위치 설정 */
+    top: 10px; /* 상단에서의 거리 */
+    right: 10px; /* 오른쪽에서의 거리 */
+}
+
+.small-christmas-button:hover {
     background-color: #d32f2f; /* 호버 시 어두운 빨간색 */
 }
 </style>
+
+<script>
+function shareOnFacebook() {
+    const shareUrl = "{{ url_for('main.letter_detail', id=letter.id, _external=True) }}";
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+}
+
+function shareOnX() { // X로 이름 변경
+    const shareUrl = "{{ url_for('main.letter_detail', id=letter.id, _external=True) }}";
+    const shareText = "Check out my Christmas letter!";
+    window.open(`https://x.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`, '_blank');
+}
+
+function shareViaEmail() {
+    const shareUrl = "{{ url_for('main.letter_detail', id=letter.id, _external=True) }}";
+    const shareText = "Check out my Christmas letter!";
+    window.location.href = `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(shareUrl)}`;
+}
+</script>
 
 {% endblock %}
