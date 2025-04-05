@@ -7,17 +7,7 @@
     </div>
 
     <h1 class="christmas-title">🎄 크리스마스 편지함 🎄</h1>
-
-    <div id="countdown">
-        <h2>크리스마스까지 남은 시간</h2>
-        <div id="timer">
-            <span id="days">00</span>일 
-            <span id="hours">00</span>시간 
-            <span id="minutes">00</span>분 
-            <span id="seconds">00</span>초
-        </div>
-    </div>
-
+    
     <div class="button-container">
         <a href="{{ url_for('main.write_letter') }}" class="christmas-button">
             ✉️ 편지 쓰기
@@ -53,42 +43,17 @@
 
     setInterval(createSnowflake, 300);
 
-    const christmasDate = new Date("2024-12-25T00:00:00").getTime();
-
-    const countdownFunction = setInterval(() => {
-        const now = new Date().getTime();
-        
-        const distance = christmasDate - now;
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        document.getElementById("days").innerText = days;
-        document.getElementById("hours").innerText = hours;
-        document.getElementById("minutes").innerText = minutes;
-        document.getElementById("seconds").innerText = seconds;
-
-        if (distance < 0) {
-            clearInterval(countdownFunction);
-            document.getElementById("timer").innerHTML = "🎄 크리스마스 축하합니다! 🎄";
-        }
-    }, 1000);
-
     document.addEventListener('DOMContentLoaded', function() {
         const developmentNotice = document.querySelector('.development-notice');
         
-        // 3초 후 페이드 아웃
         setTimeout(() => {
             developmentNotice.style.transition = 'opacity 1s';
             developmentNotice.style.opacity = '0';
             
-            // 1초 후 완전히 제거
             setTimeout(() => {
                 developmentNotice.style.display = 'none';
             }, 1000);
-        }, 3000); // 여기서 시간을 조정합니다.
+        }, 3000);
     });
 </script>
 {% endblock %}
